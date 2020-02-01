@@ -44,19 +44,19 @@ export TF_VAR_master_node_password=<master_node_password>
 2. First download all plugins: 
 
 ```sh
-GOOGLE_APPLICATION_CREDENTIALS=~/.config/gcloud/account.json terraform init
+GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/account.json terraform init
 ```
 
 3. Checkout the plan: 
 
 ```sh
-GOOGLE_APPLICATION_CREDENTIALS=~/.config/gcloud/account.json terraform plan
+GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/account.json terraform plan
 ```
 
 4. If you are happy with this resources, apply them: 
 
 ```sh
-GOOGLE_APPLICATION_CREDENTIALS=~/.config/gcloud/account.json terraform apply -auto-approve
+GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/account.json terraform apply -auto-approve
 ```
 
 Note: when running apply for the first time it's going to take around 5min to create the cluster.
