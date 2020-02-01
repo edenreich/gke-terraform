@@ -8,7 +8,7 @@ variable "project" {
 variable "environment" {
     type        = string
     description = "The environment."
-    default     = "staging"
+    default     = "production"
 }
 
 variable "region" {

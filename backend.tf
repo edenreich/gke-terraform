@@ -1,7 +1,7 @@
 
 terraform {
   backend "gcs" {
-    bucket  = "eden-terraform"
+    bucket  = "gke-terraform-master"
     prefix  = "state"
   }
 }
