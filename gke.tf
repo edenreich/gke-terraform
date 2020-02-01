@@ -3,7 +3,7 @@ resource "google_container_cluster" "primary" {
   name     = var.cluster_name
   location = var.region
 
-  initial_node_count = "${var.initial_node_count}"
+  initial_node_count = var.initial_node_count
 
   master_auth {
     username = var.master_node_username
