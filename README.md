@@ -159,7 +159,8 @@ GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/account.json \
 
 ```sh
 GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/account.json \
-    gcloud container clusters get-credentials <cluster_name>
+    gcloud container clusters get-credentials $TF_VAR_cluster_name \
+    --zone=$TF_VAR_zone
 ```
 
 2. Test you can fetch informations from the cluster:
