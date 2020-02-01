@@ -1,13 +1,13 @@
 
 resource "google_container_cluster" "primary" {
-  name     = "${var.cluster_name}"
-  location = "${var.region}"
+  name     = var.cluster_name
+  location = var.region
 
   initial_node_count = "${var.initial_node_count}"
 
   master_auth {
-    username = "${var.master_node_username}"
-    password = "${var.master_node_password}"
+    username = var.master_node_username
+    password = var.master_node_password
 
     client_certificate_config {
       issue_client_certificate = false
@@ -17,9 +17,9 @@ resource "google_container_cluster" "primary" {
 
 resource "google_container_node_pool" "primary_preemptible_nodes" {
   name       = "${var.cluster_name}-pool"
-  location   = "${var.region}"
-  cluster    = "${google_container_cluster.primary.name}"
-  node_count = "${var.node_count}"
+  location   = var.region
+  cluster    = google_container_cluster.primary.name
+  node_count = var.node_count
 
   node_config {
     preemptible  = true

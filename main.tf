@@ -5,7 +5,8 @@ terraform {
 
 provider "google" {
   version     = "~> 2.10"
-  project     = "${var.project}"
-  region      = "${var.region}"
-  zone        = "${var.zone}"
+  project     = var.project
+  region      = var.region
+  zone        = var.zone
+
 }
