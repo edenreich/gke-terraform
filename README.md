@@ -175,7 +175,8 @@ kubectl get nodes
 To cleanup all resources that has been created by this project from GCP, run:
 
 ```sh
-terraform destroy
+GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/account.json \
+    terraform destroy
 ```
 
 ## Visualize
