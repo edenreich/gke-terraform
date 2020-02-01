@@ -51,7 +51,7 @@ gcloud projects add-iam-policy-binding <project_id> \
 
 OR
 
-Assign IAM policy to service account (Considered better practice):
+Assign an IAM policy to service account (Considered better practice):
 
 ```sh
 gcloud iam service-accounts set-iam-policy \
@@ -68,7 +68,8 @@ gcloud iam service-accounts keys create ~/.config/gcloud/account.json \
 Activate the service account:
 
 ```sh
-gcloud auth activate-service-account <service_account_name>@<project_id>.iam.gserviceaccount.com --key-file=$HOME/.config/gcloud/account.json
+gcloud auth activate-service-account <service_account_name>@<project_id>.iam.gserviceaccount.com \
+    --key-file=$HOME/.config/gcloud/account.json
 ```
 
 ## Environment / Configurations
@@ -85,10 +86,12 @@ export TF_VAR_master_node_password=<master_node_password>
 
 ## Build
 
-1. Create a backend, so terraform can store it's state and read from it remotely:
+1. Create a backend, so terraform can store it's state and read from it remotely (necessary when collaborating with other teams, that way everyone can apply the changes to the remote state):
 
 ```sh
-GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/account.json BUCKET_NAME=<bucket-name> gcloud compute backend-buckets create $BUCKET_NAME --gcs-bucket-name=$BUCKET_NAME --description='stores the state of terraform'
+GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/account.json BUCKET_NAME=<bucket-name> \
+    gcloud compute backend-buckets create $BUCKET_NAME \
+    --gcs-bucket-name=$BUCKET_NAME --description='stores the state of terraform'
 ```
 
 Note: If gcloud bucket creation not working you will probably have to create the bucket manually.
