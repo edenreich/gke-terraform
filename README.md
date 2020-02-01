@@ -130,7 +130,6 @@ GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/account.json terraform plan
 GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/account.json terraform apply -auto-approve
 ```
 
-
 ## Cleanup
 
 Run `terraform destroy`
