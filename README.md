@@ -71,7 +71,7 @@ Activate the service account:
 gcloud auth activate-service-account <service_account_name>@<project_id>.iam.gserviceaccount.com --key-file=$HOME/.config/gcloud/account.json
 ```
 
-## Build
+## Environment / Configurations
 
 Before build you should set the following variables:
 
@@ -82,6 +82,8 @@ export TF_VAR_zone=<zone>
 export TF_VAR_master_node_username=<master_node_username>
 export TF_VAR_master_node_password=<master_node_password>
 ```
+
+## Build
 
 1. Create a backend, so terraform can store it's state and read from it remotely:
 
@@ -111,6 +113,23 @@ GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/account.json terraform apply
 ```
 
 Note: when running apply for the first time it's going to take around 5min to create the cluster.
+
+## Update Infrastructure
+
+1. Modifiy the configurations .tf files.
+
+2. Plan the changes:
+
+```sh
+GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/account.json terraform plan
+```
+
+3. Apply the changes:
+
+```sh
+GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/account.json terraform apply -auto-approve
+```
+
 
 ## Cleanup
 
