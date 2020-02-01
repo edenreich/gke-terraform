@@ -78,10 +78,17 @@ Before build you should set the following variables:
 
 ```sh
 export TF_VAR_project=<project_id>
+export TF_VAR_environment=<environment>
 export TF_VAR_region=<region>
 export TF_VAR_zone=<zone>
-export TF_VAR_master_node_username=<master_node_username>
-export TF_VAR_master_node_password=<master_node_password>
+export TF_VAR_cluster_name=<cluster_name>
+
+# Authentication - left blank on purpose, to disable basic authentication
+export TF_VAR_master_node_username=''
+export TF_VAR_master_node_password=''
+
+export TF_VAR_master_initial_node_count=1
+export TF_VAR_master_node_count=1
 ```
 
 ## Build
