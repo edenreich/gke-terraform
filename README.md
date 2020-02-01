@@ -1,4 +1,4 @@
-# GKE Cluster
+# GKE Terraform
 
 minimalistic terraform module for deploying a GKE cluster.
 
@@ -27,11 +27,13 @@ gcloud iam service-accounts keys create ~/.config/gcloud/account.json --iam-acco
 
 Before build you should set the following variables:
 
-TF_VAR_project=<project_id>
-TF_VAR_region=<region>
-TF_VAR_zone=<zone>
-TF_VAR_master_node_username=<master_node_username>
-TF_VAR_master_node_password=<master_node_password>
+```sh
+export TF_VAR_project=<project_id>
+export TF_VAR_region=<region>
+export TF_VAR_zone=<zone>
+export TF_VAR_master_node_username=<master_node_username>
+export TF_VAR_master_node_password=<master_node_password>
+```
 
 1. Create a backend, so terraform can store it's state and read from it remotely:
 
