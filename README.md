@@ -60,3 +60,7 @@ GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/account.json terraform apply
 ```
 
 Note: when running apply for the first time it's going to take around 5min to create the cluster.
+
+## Cleanup
+
+Run `terraform destroy`
