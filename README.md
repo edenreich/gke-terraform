@@ -172,4 +172,17 @@ kubectl get nodes
 
 ## Cleanup
 
-Run `terraform destroy`
+To cleanup all resources that has been created by this project from GCP, run:
+
+```sh
+terraform destroy
+```
+
+## Visualize
+
+To visualize infrastructure dependency tree, run:
+
+```sh
+sudo apt install graphviz
+terraform graph | dot -Tsvg > graph.svg
+```
