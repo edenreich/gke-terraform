@@ -36,6 +36,6 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
       "https://www.googleapis.com/auth/monitoring",
     ]
 
-    tags = ["k8s-${var.cluster_name+"-"+var.environment}"]
+    tags = ["k8s-${var.cluster_name}-${var.environment}"]
   }
 }
