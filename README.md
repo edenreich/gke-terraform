@@ -163,7 +163,7 @@ GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/account.json \
     --zone=$TF_VAR_zone
 ```
 
-2. Test you can fetch informations from the cluster:
+2. Test that you can fetch informations from the cluster:
 
 ```sh
 kubectl cluster-info
