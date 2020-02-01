@@ -6,23 +6,33 @@ minimalistic terraform module for deploying a GKE cluster.
 
 * terraform v0.12.20
 * gcloud v2.20.1
+* kubectl v1.17.0
 
 Download and install google SDK:
 
 ```sh
-    curl sdk.cloud.google.com | bash
-    gcloud version
+curl sdk.cloud.google.com | bash
+gcloud version
 ```
 
 Download and install terraform:
 
 ```sh
-    wget https://releases.hashicorp.com/terraform/0.12.20/terraform_0.12.20_linux_amd64.zip
-    unzip terraform_0.12.20_linux_amd64.zip
-    sudo mv terraform /usr/local/bin/terraform
-    rm -rf terraform_0.12.20_linux_amd64.zip
-    terraform version
+wget https://releases.hashicorp.com/terraform/0.12.20/terraform_0.12.20_linux_amd64.zip
+unzip terraform_0.12.20_linux_amd64.zip
+chmod +x kubectl && sudo mv terraform /usr/local/bin/terraform
+rm -rf terraform_0.12.20_linux_amd64.zip
+terraform version
 ```
+
+Download and install kubectl:
+
+```sh
+curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.17.0/bin/linux/amd64/kubectl
+chmod +x kubectl && sudo mv kubectl /usr/local/bin/kubectl
+kubectl version --client
+```
+
 
 ## Authentication with GCP
 
@@ -95,7 +105,8 @@ export TF_VAR_master_node_password=''
 1. Create a backend, so terraform can store it's state and read from it remotely (necessary when collaborating with other teams, that way everyone can apply the changes to the remote state):
 
 ```sh
-GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/account.json BUCKET_NAME=<bucket-name> \
+GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/account.json \
+    BUCKET_NAME=<bucket-name> \
     gcloud compute backend-buckets create $BUCKET_NAME \
     --gcs-bucket-name=$BUCKET_NAME --description='stores the state of terraform'
 ```
@@ -106,19 +117,22 @@ Note: If gcloud bucket creation not working you will probably have to create the
 2. First download all plugins: 
 
 ```sh
-GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/account.json terraform init
+GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/account.json \
+    terraform init
 ```
 
 3. Checkout the plan: 
 
 ```sh
-GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/account.json terraform plan
+GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/account.json \
+    terraform plan
 ```
 
 4. If you are happy with this resources, apply them: 
 
 ```sh
-GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/account.json terraform apply -auto-approve
+GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/account.json \
+    terraform apply -auto-approve
 ```
 
 Note: when running apply for the first time it's going to take around 5min to create the cluster.
@@ -130,13 +144,31 @@ Note: when running apply for the first time it's going to take around 5min to cr
 2. Plan the changes:
 
 ```sh
-GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/account.json terraform plan
+GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/account.json \
+    terraform plan
 ```
 
 3. Apply the changes:
 
 ```sh
-GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/account.json terraform apply -auto-approve
+GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/account.json \
+    terraform apply -auto-approve
+```
+
+## Connect to GKE
+
+1. First download the kubernetes config file:
+
+```sh
+GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/account.json \
+    gcloud container clusters get-credentials <cluster_name>
+```
+
+2. Test you can fetch informations from the cluster:
+
+```sh
+kubectl cluster-info
+kubectl get nodes
 ```
 
 ## Cleanup
