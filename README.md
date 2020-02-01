@@ -38,7 +38,7 @@ export TF_VAR_master_node_password=<master_node_password>
 1. Create a backend, so terraform can store it's state and read from it remotely:
 
 ```sh
-//
+GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/account.json BUCKET_NAME=<bucket-name> gcloud compute backend-buckets create $BUCKET_NAME --gcs-bucket-name=$BUCKET_NAME --description='stores the state of terraform'
 ```
 
 2. First download all plugins: 
