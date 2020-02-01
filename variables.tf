@@ -12,43 +12,43 @@ variable "environment" {
 }
 
 variable "region" {
-    type    = string
+    type        = string
     description = "The region of the cluster."
-    default = "europe-west3"
+    default     = "europe-west3"
 }
 
 variable "zone" {
-    type    = string
+    type        = string
     description = "The zone of the cluster."
-    default = "europe-west3-a"
+    default     = "europe-west3-a"
 }
 
 variable "cluster_name" {
-    type    = string
+    type        = string
     description = "The name of the cluster."
-    default = "test"
+    default     = "test"
 }
 
 variable "master_node_username" {
-    type    = string
+    type        = string
     description = "The username to be used with basic authentication. If left empty basic authentication is disabled."
-    default = ""
+    default     = ""
 }
 
 variable "master_node_password" {
-    type    = string
+    type        = string
     description = "The password to be used with basic authentication. If left empty basic authentication is disabled."
-    default = ""
+    default     = ""
 }
 
 variable "initial_node_count" {
-    type    = number
+    type        = number
     description = "The initial count of nodes for the cluster."
-    default = 1
+    default     = 1
 }
 
 variable "node_count" {
-    type    = number
+    type        = number
     description = "The actual count of nodes for the cluster."
-    default = 1
+    default     = 1
 }
