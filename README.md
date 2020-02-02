@@ -87,6 +87,7 @@ gcloud auth activate-service-account <service_account_name>@<project_id>.iam.gse
 Before build you should set the following variables:
 
 ```sh
+export GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/account.json
 export TF_VAR_project=<project_id>
 export TF_VAR_environment=<environment>
 export TF_VAR_region=<region>
@@ -109,7 +110,7 @@ export TF_VAR_master_node_password=''
 1. Create a backend, so terraform can store it's state and read from it remotely (necessary when collaborating with other teams, that way everyone can apply the changes to the remote state):
 
 ```sh
-GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/account.json BUCKET_NAME=<bucket-name> \
+BUCKET_NAME=<bucket-name> \
     gcloud compute backend-buckets create $BUCKET_NAME \
     --gcs-bucket-name=$BUCKET_NAME --description='stores the state of terraform'
 ```
@@ -119,22 +120,25 @@ Note: If gcloud bucket creation not working you will probably have to create the
 2. First download all plugins: 
 
 ```sh
-GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/account.json \
-    terraform init
+terraform init
 ```
 
-3. Checkout the plan: 
+3. Choose the workspace (staging|production):
 
 ```sh
-GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/account.json \
-    terraform plan
+terraform workspace select $TF_VAR_environment || terraform workspace new $TF_VAR_environment
 ```
 
-4. If you are happy with this resources, apply them: 
+4. Checkout the plan: 
 
 ```sh
-GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/account.json \
-    terraform apply -auto-approve
+terraform plan
+```
+
+5. If you are happy with this resources, apply them: 
+
+```sh
+terraform apply -auto-approve
 ```
 
 Note: when running apply for the first time it's going to take around 5min to create the cluster.
@@ -149,15 +153,13 @@ therefore in order to make changes (for example - add nodes or delete nodes etc.
 2. Plan the changes:
 
 ```sh
-GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/account.json \
-    terraform plan
+terraform plan
 ```
 
 3. Apply the changes:
 
 ```sh
-GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/account.json \
-    terraform apply -auto-approve
+terraform apply -auto-approve
 ```
 
 ## Connect to GKE
@@ -165,8 +167,7 @@ GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/account.json \
 1. First download the kubernetes config file:
 
 ```sh
-GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/account.json \
-    gcloud container clusters get-credentials $TF_VAR_cluster_name \
+gcloud container clusters get-credentials $TF_VAR_cluster_name \
     --zone=$TF_VAR_zone
 ```
 
@@ -182,7 +183,6 @@ kubectl get nodes
 To cleanup all resources that has been created by this project from GCP, run:
 
 ```sh
-GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/account.json \
     terraform destroy
 ```
 

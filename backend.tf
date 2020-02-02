@@ -1,7 +1,7 @@
 
 terraform {
   backend "gcs" {
-    bucket  = "gke-terraform-staging"
+    bucket  = "gke-terraform"
     prefix  = "state"
   }
 }
