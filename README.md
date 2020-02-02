@@ -4,6 +4,7 @@ minimalistic terraform module for deploying a GKE cluster.
 
 ## Requirements
 
+* project id from GCP console
 * terraform v0.12.20
 * gcloud v2.20.1
 * kubectl v1.17.0
@@ -37,7 +38,7 @@ kubectl version --client
 
 ```sh
 export GOOGLE_PROJECT_ID=<project_id>
-export GOOGLE_SERVICE_ACCOUNT_NAME=acme-123
+export GOOGLE_SERVICE_ACCOUNT_NAME=acme-123 # could be anything unique
 export GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/account.json
 
 export TF_VAR_project=$GOOGLE_PROJECT_ID
@@ -63,7 +64,7 @@ Login into google cloud using gcloud cli (this project will use your credentials
 
 ```sh
 gcloud auth login
-gcloud config set project $TF_VAR_project
+gcloud config set project $GOOGLE_PROJECT_ID
 ```
 
 Create a service account if not already exists:
