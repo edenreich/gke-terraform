@@ -47,6 +47,7 @@ export TF_VAR_environment=<environment>
 export TF_VAR_region=<region>
 export TF_VAR_zone=<zone>
 export TF_VAR_cluster_name=<cluster_name>
+export TF_VAR_node_locations='["europe-west3-a","europe-west3-b"]'
 export TF_VAR_initial_node_count=1
 export TF_VAR_node_count=1
 
