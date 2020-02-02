@@ -131,7 +131,7 @@ Note: If gcloud bucket creation not working you will probably have to create the
 terraform init
 ```
 
-3. Choose the workspace (staging|production):
+3. Choose the workspace (create new one if not exists, every workspace keeps it's own state file, that way it's easy to manage production in a different way from staging):
 
 ```sh
 terraform workspace select $TF_VAR_environment || terraform workspace new $TF_VAR_environment
