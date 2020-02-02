@@ -42,6 +42,7 @@ export GOOGLE_SERVICE_ACCOUNT_NAME=acme-123 # could be anything unique
 export GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/account.json
 
 export TF_VAR_project=$GOOGLE_PROJECT_ID
+export TF_VAR_service_account=$GOOGLE_SERVICE_ACCOUNT_NAME
 export TF_VAR_environment=<environment>
 export TF_VAR_region=<region>
 export TF_VAR_zone=<zone>

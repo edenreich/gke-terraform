@@ -2,7 +2,13 @@
 variable "project" {
     type        = string
     description = "The project id."
-    default     = "test-project-id"
+    default     = "acme-project-id"
+}
+
+variable "service_account" {
+    type        = string
+    description = "The service account."
+    default     = "acme-service-account"
 }
 
 variable "environment" {
