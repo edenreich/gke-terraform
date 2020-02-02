@@ -33,62 +33,14 @@ chmod +x kubectl && sudo mv kubectl /usr/local/bin/kubectl
 kubectl version --client
 ```
 
-
-## Authentication with GCP
-
-Login into google cloud using gcloud cli (this project will use your credentials file for auth): 
-
-```sh
-gcloud auth application-default login --project <project_id>
-gcloud config set account <project_id>
-```
-
-Create a service account if not already exists:
-
-```sh
-gcloud iam service-accounts create <service_account_name> \
-    --display-name <service_account_display_name> \
-    --description 'service account for managing terraform'
-```
-
-Assign owner role to service account (Bad practice - should be limited to specific resources by attached policy).
-
-```sh
-gcloud projects add-iam-policy-binding <project_id> \
-  --member serviceAccount:<service_account_name>@<project_id>.iam.gserviceaccount.com \
-  --role roles/owner
-```
-
-OR
-
-Assign an IAM policy to service account (Considered better practice):
-
-```sh
-gcloud iam service-accounts set-iam-policy \
-    <service_account_name>@<project_id>.iam.gserviceaccount.com policies/main.json
-```
-
-Download the service account credentials:
-
-```sh
-gcloud iam service-accounts keys create ~/.config/gcloud/account.json \
-    --iam-account <service_account_name>@<project_id>.iam.gserviceaccount.com
-```
-
-Activate the service account:
-
-```sh
-gcloud auth activate-service-account <service_account_name>@<project_id>.iam.gserviceaccount.com \
-    --key-file=$HOME/.config/gcloud/account.json
-```
-
 ## Environment / Configurations
 
-Before build you should set the following variables:
-
 ```sh
+export GOOGLE_PROJECT_ID=<project_id>
+export GOOGLE_SERVICE_ACCOUNT_NAME=acme-123
 export GOOGLE_APPLICATION_CREDENTIALS=$HOME/.config/gcloud/account.json
-export TF_VAR_project=<project_id>
+
+export TF_VAR_project=$GOOGLE_PROJECT_ID
 export TF_VAR_environment=<environment>
 export TF_VAR_region=<region>
 export TF_VAR_zone=<zone>
@@ -105,6 +57,58 @@ export TF_VAR_master_node_username=''
 export TF_VAR_master_node_password=''
 ```
 
+## Authentication with GCP
+
+Login into google cloud using gcloud cli (this project will use your credentials file for auth): 
+
+```sh
+gcloud auth login
+gcloud config set project $TF_VAR_project
+```
+
+Create a service account if not already exists:
+
+```sh
+gcloud config set account $GOOGLE_SERVICE_ACCOUNT_NAME
+gcloud iam service-accounts create $GOOGLE_SERVICE_ACCOUNT_NAME \
+    --display-name 'GKE Account' \
+    --description 'Service account for managing GKE via terraform'
+```
+
+Assign minimum roles to service account for required actions:
+
+```sh
+gcloud projects add-iam-policy-binding $GOOGLE_PROJECT_ID \
+  --member "serviceAccount:${GOOGLE_SERVICE_ACCOUNT_NAME}@${GOOGLE_PROJECT_ID}.iam.gserviceaccount.com" \
+  --role roles/storage.objectAdmin
+
+gcloud projects add-iam-policy-binding $GOOGLE_PROJECT_ID \
+  --member "serviceAccount:${GOOGLE_SERVICE_ACCOUNT_NAME}@${GOOGLE_PROJECT_ID}.iam.gserviceaccount.com" \
+  --role roles/monitoring.viewer
+
+gcloud projects add-iam-policy-binding $GOOGLE_PROJECT_ID \
+  --member "serviceAccount:${GOOGLE_SERVICE_ACCOUNT_NAME}@${GOOGLE_PROJECT_ID}.iam.gserviceaccount.com" \
+  --role roles/monitoring.metricWriter
+
+gcloud projects add-iam-policy-binding $GOOGLE_PROJECT_ID \
+  --member "serviceAccount:${GOOGLE_SERVICE_ACCOUNT_NAME}@${GOOGLE_PROJECT_ID}.iam.gserviceaccount.com" \
+  --role roles/logging.logWriter
+```
+
+Download the service account credentials:
+
+```sh
+gcloud iam service-accounts keys create ~/.config/gcloud/account.json \
+    --iam-account ${GOOGLE_SERVICE_ACCOUNT_NAME}@${GOOGLE_PROJECT_ID}.iam.gserviceaccount.com
+```
+
+Activate the service account:
+
+```sh
+gcloud auth activate-service-account ${GOOGLE_SERVICE_ACCOUNT_NAME}@${GOOGLE_PROJECT_ID}.iam.gserviceaccount.com \
+    --key-file=$HOME/.config/gcloud/account.json
+```
+
 ## Build
 
 1. Create a backend, so terraform can store it's state and read from it remotely (necessary when collaborating with other teams, that way everyone can apply the changes to the remote state):
@@ -112,7 +116,8 @@ export TF_VAR_master_node_password=''
 ```sh
 BUCKET_NAME=<bucket-name> \
     gcloud compute backend-buckets create $BUCKET_NAME \
-    --gcs-bucket-name=$BUCKET_NAME --description='stores the state of terraform'
+    --gcs-bucket-name=$BUCKET_NAME \
+    --description='stores the state of terraform'
 ```
 
 Note: If gcloud bucket creation not working you will probably have to create the bucket manually.
