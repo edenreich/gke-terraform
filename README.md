@@ -95,6 +95,10 @@ export TF_VAR_cluster_name=<cluster_name>
 export TF_VAR_initial_node_count=1
 export TF_VAR_node_count=1
 
+# Autoscaling (optional, default to 5)
+export TF_VAR_min_node_count=1
+export TF_VAR_max_node_count=5
+
 # Authentication - left blank on purpose, to disable basic authentication
 export TF_VAR_master_node_username=''
 export TF_VAR_master_node_password=''

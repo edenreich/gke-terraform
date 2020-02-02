@@ -49,6 +49,18 @@ variable "initial_node_count" {
 
 variable "node_count" {
     type        = number
-    description = "The actual count of nodes for the cluster."
+    description = "The actual count of nodes in the cluster."
     default     = 1
+}
+
+variable "min_node_count" {
+    type        = number
+    description = "The minimum count of nodes in the cluster. (autoscaling)"
+    default     = 1
+}
+
+variable "max_node_count" {
+    type        = number
+    description = "The max count of nodes in the cluster. (autoscaling)"
+    default     = 5
 }
