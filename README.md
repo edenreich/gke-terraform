@@ -85,6 +85,7 @@ declare -a roles=(
   "logging.logWriter" 
   "iam.serviceAccountUser" 
   "compute.serviceAgent" 
+  "compute.admin" 
   "container.serviceAgent" 
   "container.admin"
 )
