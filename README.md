@@ -183,7 +183,7 @@ kubectl get nodes
 To cleanup all resources that has been created by this project from GCP, run:
 
 ```sh
-    terraform destroy
+terraform destroy
 ```
 
 ## Visualize
