@@ -4,11 +4,11 @@ data "google_service_account" "gke_terraform_service_account" {
 }
 
 resource "google_container_cluster" "primary" {
-  name     = var.cluster_name
-  location = var.region
+  name                     = var.cluster_name
+  location                 = var.region
   remove_default_node_pool = true
-  initial_node_count = var.initial_node_count
-  node_locations = var.node_locations
+  initial_node_count       = var.initial_node_count
+  node_locations           = var.node_locations
 
   master_auth {
     username = var.master_node_username
@@ -33,9 +33,9 @@ resource "google_container_node_pool" "primary_preemptible_nodes" {
 
   node_config {
     service_account = data.google_service_account.gke_terraform_service_account.email
-    preemptible  = true
-    machine_type = "n1-standard-1"
-    disk_size_gb = 10
+    preemptible     = true
+    machine_type    = "n1-standard-1"
+    disk_size_gb    = 10
 
     metadata = {
       disable-legacy-endpoints = "true"
