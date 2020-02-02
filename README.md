@@ -142,7 +142,7 @@ Note: when running apply for the first time it's going to take around 5min to cr
 ## Update Infrastructure
 
 Terraform idempotent code could run as many time as needed and keep track on the current state of the infrastructure,
-therefore in order to make changes (for example - remove nodes or delete nodes etc..) you need to:
+therefore in order to make changes (for example - add nodes or delete nodes etc..) you need to:
 
 1. Modifiy the configurations .tf files.
 
