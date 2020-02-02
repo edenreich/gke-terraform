@@ -70,7 +70,6 @@ gcloud config set project $GOOGLE_PROJECT_ID
 Create a service account if not already exists:
 
 ```sh
-gcloud config set account $GOOGLE_SERVICE_ACCOUNT_NAME
 gcloud iam service-accounts create $GOOGLE_SERVICE_ACCOUNT_NAME \
     --display-name 'GKE Account' \
     --description 'Service account for managing GKE via terraform'
