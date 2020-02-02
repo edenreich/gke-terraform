@@ -63,15 +63,14 @@ export TF_VAR_master_node_password=''
 Login into google cloud using gcloud cli (this project will use your credentials file for auth): 
 
 ```sh
-gcloud auth login
-gcloud config set project $GOOGLE_PROJECT_ID
+gcloud init --console-only --project $GOOGLE_PROJECT_ID
 ```
 
 Create a service account if not already exists:
 
 ```sh
 gcloud iam service-accounts create $GOOGLE_SERVICE_ACCOUNT_NAME \
-    --display-name 'GKE Account' \
+    --display-name 'GKE-Terraform Account' \
     --description 'Service account for managing GKE via terraform'
 ```
 
