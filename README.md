@@ -154,17 +154,23 @@ Note: when running apply for the first time it's going to take around 5min to cr
 ## Update Infrastructure
 
 Terraform idempotent code could run as many time as needed and keep track on the current state of the infrastructure,
-therefore in order to make changes (for example - add nodes or delete nodes etc..) you need to:
+therefore in order to make changes (for example - add nodes or delete nodes etc, add vpc, ingress etc..) you need to:
 
-1. Modifiy the configurations .tf files.
+1. Modifiy the configurations .tf files or change environment variables if needed.
 
-2. Plan the changes:
+2. choose a workspace (for example staging or production):
+
+```sh
+terraform workspace select $TF_VAR_environment || terraform workspace new $TF_VAR_environment
+```
+
+3. Plan the changes:
 
 ```sh
 terraform plan
 ```
 
-3. Apply the changes:
+4. Apply the changes:
 
 ```sh
 terraform apply -auto-approve
