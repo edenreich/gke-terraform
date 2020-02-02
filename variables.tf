@@ -11,6 +11,21 @@ variable "environment" {
     default     = "staging"
 }
 
+variable "cluster_name" {
+    type        = string
+    description = "The name of the cluster."
+    default     = "staging"
+}
+
+variable "node_locations" {
+    type = list(string)
+    description = "List of availablity zones that the nodes should be created."
+    default = [
+        "europe-west3-a",
+        "europe-west3-b"
+    ]
+}
+
 variable "region" {
     type        = string
     description = "The region of the cluster."
@@ -21,12 +36,6 @@ variable "zone" {
     type        = string
     description = "The zone of the cluster."
     default     = "europe-west3-a"
-}
-
-variable "cluster_name" {
-    type        = string
-    description = "The name of the cluster."
-    default     = "staging"
 }
 
 variable "master_node_username" {
