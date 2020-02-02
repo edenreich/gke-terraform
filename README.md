@@ -78,21 +78,23 @@ gcloud iam service-accounts create $GOOGLE_SERVICE_ACCOUNT_NAME \
 Assign minimum roles to service account for required actions:
 
 ```sh
-gcloud projects add-iam-policy-binding $GOOGLE_PROJECT_ID \
-  --member "serviceAccount:${GOOGLE_SERVICE_ACCOUNT_NAME}@${GOOGLE_PROJECT_ID}.iam.gserviceaccount.com" \
-  --role roles/storage.objectAdmin
+declare -a roles=(
+  "storage.objectAdmin" 
+  "monitoring.viewer" 
+  "monitoring.metricWriter" 
+  "logging.logWriter" 
+  "iam.serviceAccountUser" 
+  "compute.serviceAgent" 
+  "container.serviceAgent" 
+  "container.admin"
+)
 
+for role in "${roles[@]}"
+do
 gcloud projects add-iam-policy-binding $GOOGLE_PROJECT_ID \
   --member "serviceAccount:${GOOGLE_SERVICE_ACCOUNT_NAME}@${GOOGLE_PROJECT_ID}.iam.gserviceaccount.com" \
-  --role roles/monitoring.viewer
-
-gcloud projects add-iam-policy-binding $GOOGLE_PROJECT_ID \
-  --member "serviceAccount:${GOOGLE_SERVICE_ACCOUNT_NAME}@${GOOGLE_PROJECT_ID}.iam.gserviceaccount.com" \
-  --role roles/monitoring.metricWriter
-
-gcloud projects add-iam-policy-binding $GOOGLE_PROJECT_ID \
-  --member "serviceAccount:${GOOGLE_SERVICE_ACCOUNT_NAME}@${GOOGLE_PROJECT_ID}.iam.gserviceaccount.com" \
-  --role roles/logging.logWriter
+  --role "roles/${role}"
+done
 ```
 
 Download the service account credentials:
